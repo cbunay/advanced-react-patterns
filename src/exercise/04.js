@@ -18,7 +18,6 @@ function useToggle() {
 
   function getTogglerProps({onClick, ...props}) {
     return {
-      on,
       'aria-pressed': on,
       onClick: callAll(onClick, toggle),
       ...props,
@@ -35,7 +34,7 @@ function App() {
   const {on, getTogglerProps} = useToggle()
   return (
     <div>
-      <Switch {...getTogglerProps({})} />
+      <Switch {...getTogglerProps({on})} />
       <hr />
       <button
         {...getTogglerProps({
