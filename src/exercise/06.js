@@ -44,6 +44,19 @@ function useToggle({
 
   const hasOnChange = Boolean(onChange)
 
+  const {current: onWasControlled} = React.useRef(onIsControlled)
+
+  React.useEffect(() => {
+    warning(
+      !(onIsControlled && !onWasControlled),
+      '`useToggle` changing from uncontrolled to controlled',
+    )
+    warning(
+      !(!onIsControlled && onWasControlled),
+      '`useToggle` hanging from controlled to uncontrolled',
+    )
+  }, [onWasControlled, onIsControlled])
+
   React.useEffect(() => {
     warning(
       !(!hasOnChange && onIsControlled && !readOnly),
