@@ -3,19 +3,23 @@
 
 import * as React from 'react'
 import {Switch} from '../switch'
-import {act} from 'react-dom/test-utils'
 
 const callAll =
   (...fns) =>
   (...args) =>
     fns.forEach(fn => fn?.(...args))
 
+const actionsTypes = {
+  toggle: 'toggle',
+  reset: 'reset',
+}
+
 function toggleReducer(state, {type, initialState}) {
   switch (type) {
-    case 'toggle': {
+    case actionsTypes.toggle: {
       return {on: !state.on}
     }
-    case 'reset': {
+    case actionsTypes.reset: {
       return initialState
     }
     default: {
@@ -33,8 +37,8 @@ function useToggle({initialOn = false, reducer = toggleReducer} = {}) {
   const [state, dispatch] = React.useReducer(reducer, initialState)
   const {on} = state
 
-  const toggle = () => dispatch({type: 'toggle'})
-  const reset = () => dispatch({type: 'reset', initialState})
+  const toggle = () => dispatch({type: actionsTypes.toggle})
+  const reset = () => dispatch({type: actionsTypes.reset, initialState})
 
   function getTogglerProps({onClick, ...props} = {}) {
     return {
